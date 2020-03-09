@@ -1,0 +1,77 @@
+{
+  "name": "shop-app",
+  "productName": "ShopApp",
+  "version": "1.0.1",
+  "description": "My Electron application description",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts ."
+  },
+  "keywords": [],
+  "author": {
+    "name": "MagicWang",
+    "email": "494082081@qq.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true,
+        "icon": "web/favicon.ico",
+        "overwrite": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "iconUrl": "https://store.gmtshenzhen.cn/favicon.ico",
+            "loadingGif": "src/images/loading.gif",
+            "setupIcon": "web/favicon.ico",
+            "certificateFile": "./test.pfx",
+            "certificatePassword": "123456"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.49",
+    "@electron-forge/maker-deb": "^6.0.0-beta.49",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.49",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.49",
+    "@electron-forge/maker-zip": "^6.0.0-beta.49",
+    "@types/express": "^4.17.3",
+    "@types/node": "^12.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "electron": "^6.0.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.0",
+    "typescript": "^3.7.0"
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.1.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.17.1",
+    "ffi-napi": "^2.4.6",
+    "http-proxy-middleware": "^1.0.1"
+  }
+}
