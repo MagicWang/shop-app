@@ -356,6 +356,15 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/ffi-napi@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@types/ffi-napi/-/ffi-napi-2.4.1.tgz#e28ec33998e41605b1792944e38798dee8612221"
+  integrity sha512-QbCEQZRMGOuin88fK7rOIVCJE9NnhgYV4fASV2yOSctt6UC+mZyx5HSXrBQX0VkFHctn+uTuuSbXzZZF0WLnPg==
+  dependencies:
+    "@types/node" "*"
+    "@types/ref-napi" "*"
+    "@types/ref-struct-di" "*"
+
 "@types/glob@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
@@ -406,6 +415,20 @@
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
+
+"@types/ref-napi@*":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@types/ref-napi/-/ref-napi-1.4.0.tgz#860fdae7931999ef3ca4f23f53720053a961e143"
+  integrity sha512-4o5B7vPHH4HuAGOc9TFjmXMV3HmfOuezRiiw7UIJzDGitCxtbPqa1Fl7HJzsgpFjqJMqZJD6h7JqJsX3l328sg==
+  dependencies:
+    "@types/node" "*"
+
+"@types/ref-struct-di@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ref-struct-di/-/ref-struct-di-1.1.0.tgz#4e7a20c8b2f25a6e4b3cb4a0d615835b61ab8d84"
+  integrity sha512-obdtTOGqfV/3MdouZEe2hup7fZwAK6RvusqLIL0hK/MuEBKHWpC3j/NXiC5N6zXdj7p52QB0wsnUEsdkFc+DOw==
+  dependencies:
+    "@types/ref-napi" "*"
 
 "@types/serve-static@*":
   version "1.13.3"

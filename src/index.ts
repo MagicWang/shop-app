@@ -11,6 +11,7 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 let mainWindow: BrowserWindow;
+let tray: Tray; //防止这个变量被垃圾回收，托盘区消失
 
 const createWindow = () => {
   // Create the browser window.
@@ -45,7 +46,7 @@ const createWindow = () => {
     },
   ]);
   // 托盘区
-  const tray = new Tray(path.join(__dirname, '../web/favicon.ico'));
+  tray = new Tray(path.join(__dirname, '../web/favicon.ico'));
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' },
     { label: 'Item2', type: 'radio' },

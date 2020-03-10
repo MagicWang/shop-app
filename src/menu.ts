@@ -6,6 +6,75 @@ import { helloword } from './user32';
 export function initMenu(mainWindow: BrowserWindow) {
   const menu = Menu.buildFromTemplate([
     {
+      label: '文件',
+      submenu: [
+        {
+          label: '退出',
+          role: 'quit',
+        },
+      ],
+    },
+    {
+      label: '编辑',
+      submenu: [
+        {
+          label: '撤销',
+          role: 'undo',
+        },
+        {
+          label: '恢复',
+          role: 'redo',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: '剪切',
+          role: 'cut',
+        },
+        {
+          label: '复制',
+          role: 'copy',
+        },
+        {
+          label: '粘贴',
+          role: 'paste',
+        },
+        {
+          label: '全选',
+          role: 'selectAll',
+        },
+      ],
+    },
+    {
+      label: '视图',
+      submenu: [
+        {
+          label: '重置',
+          role: 'resetZoom',
+        },
+        {
+          label: '放大',
+          role: 'zoomIn',
+        },
+        {
+          label: '缩小',
+          role: 'zoomOut',
+        },
+        {
+          label: '切换全屏',
+          role: 'togglefullscreen',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: '切换开发人员工具',
+          role: 'toggleDevTools',
+        },
+      ],
+    },
+    {
       label: '收银',
       accelerator: 'CmdOrCtrl+P',
       click: () => {
@@ -19,21 +88,18 @@ export function initMenu(mainWindow: BrowserWindow) {
     },
     {
       label: 'win32',
-      click: () => {
-        helloword();
-      },
+      submenu: [
+        {
+          label: 'helloword',
+          click: () => {
+            helloword();
+          },
+        },
+      ],
     },
     {
       label: '帮助',
       submenu: [
-        {
-          label: '切换开发人员工具',
-          click: () => {
-            if (mainWindow) {
-              mainWindow.webContents.toggleDevTools();
-            }
-          },
-        },
         {
           label: '检查更新...',
           click: () => {
