@@ -1,9 +1,10 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron';
+import { app, BrowserWindow, Menu, Tray, screen } from 'electron';
 import path from 'path';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { initMenu } from './menu';
 import { initAutoUpdater } from './update';
+import { initPuppeteer } from './puppeteer';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -15,10 +16,8 @@ let tray: Tray; //防止这个变量被垃圾回收，托盘区消失
 
 const createWindow = () => {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
-  });
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  mainWindow = new BrowserWindow({ width, height });
 
   // and load the index.html of the app.
   // mainWindow.loadFile(path.join(__dirname, "../src/index.html"));
@@ -34,6 +33,10 @@ const createWindow = () => {
   initMenu(mainWindow);
   // 自动更新
   initAutoUpdater();
+  // 初始化木偶
+  setTimeout(() => {
+    initPuppeteer();
+  }, 2000);
   // 任务栏
   app.setUserTasks([
     {
@@ -112,4 +115,5 @@ if (!gotTheLock) {
 
   // In this file you can include the rest of your app's specific main process
   // code. You can also put them in separate files and import them here.
+  app.commandLine.appendSwitch('remote-debugging-port', `14293`);
 }

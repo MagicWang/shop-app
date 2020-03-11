@@ -2,6 +2,7 @@ import { Menu, autoUpdater, dialog, app, BrowserWindow } from 'electron';
 import os from 'os';
 import { Global } from './global';
 import { helloword } from './user32';
+import { screenshot, category } from './puppeteer';
 
 export function initMenu(mainWindow: BrowserWindow) {
   const menu = Menu.buildFromTemplate([
@@ -93,6 +94,29 @@ export function initMenu(mainWindow: BrowserWindow) {
           label: 'helloword',
           click: () => {
             helloword();
+          },
+        },
+      ],
+    },
+    {
+      label: 'puppeteer',
+      submenu: [
+        {
+          label: '亚马逊',
+          click: () => {
+            mainWindow.loadURL('https://www.amazon.com/');
+          },
+        },
+        {
+          label: '截图',
+          click: () => {
+            screenshot();
+          },
+        },
+        {
+          label: '抓分类',
+          click: () => {
+            category();
           },
         },
       ],
