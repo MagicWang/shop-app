@@ -1,10 +1,12 @@
-import { app, BrowserWindow, Menu, Tray, screen } from 'electron';
+import { app, BrowserWindow, Menu, Tray, screen, globalShortcut } from 'electron';
 import path from 'path';
+import getPort from 'get-port';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { initMenu } from './menu';
 import { initAutoUpdater } from './update';
 import { initPuppeteer } from './puppeteer';
+import { initContextMenu } from './contextmenu';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -14,14 +16,15 @@ if (require('electron-squirrel-startup')) {
 let mainWindow: BrowserWindow;
 let tray: Tray; //防止这个变量被垃圾回收，托盘区消失
 
-const createWindow = () => {
+const createWindow = async () => {
   // Create the browser window.
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({ width, height });
+  mainWindow.maximize();
 
   // and load the index.html of the app.
   // mainWindow.loadFile(path.join(__dirname, "../src/index.html"));
-  const portWeb = 4299; // 前端端口
+  const portWeb = await getPort({ port: 4299 }); // 前端端口
   bootstrapWeb(portWeb).then(() => {
     const rootUrl = `http://localhost:${portWeb}`;
     mainWindow.loadURL(rootUrl);
@@ -29,13 +32,19 @@ const createWindow = () => {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
+  // 全局快捷键
+  // globalShortcut.register('CmdOrCtrl+F', () => {
+  //   mainWindow.webContents.findInPage('药');
+  // });
   // 菜单
   initMenu(mainWindow);
+  // 全局右键菜单
+  initContextMenu(mainWindow);
   // 自动更新
-  initAutoUpdater();
-  // 初始化木偶
+  initAutoUpdater(mainWindow);
+  // 木偶
   setTimeout(() => {
-    initPuppeteer();
+    initPuppeteer(mainWindow);
   }, 2000);
   // 任务栏
   app.setUserTasks([
@@ -66,7 +75,7 @@ const createWindow = () => {
   });
 };
 // 启动express承载网站
-async function bootstrapWeb(port: number) {
+const bootstrapWeb = async (port: number) => {
   const expressApp = express();
   expressApp.use(express.static(path.join(__dirname, '../web')));
   expressApp.use(
@@ -76,8 +85,12 @@ async function bootstrapWeb(port: number) {
       changeOrigin: true,
     }),
   );
-  await expressApp.listen(port);
-}
+  expressApp.listen(port);
+};
+const initApp = async () => {
+  const portDebug = await getPort(); // 调试端口
+  app.commandLine.appendSwitch('remote-debugging-port', `${portDebug}`);
+};
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
@@ -115,5 +128,5 @@ if (!gotTheLock) {
 
   // In this file you can include the rest of your app's specific main process
   // code. You can also put them in separate files and import them here.
-  app.commandLine.appendSwitch('remote-debugging-port', `14293`);
+  initApp();
 }

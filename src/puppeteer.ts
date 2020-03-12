@@ -1,16 +1,19 @@
-import { app, screen } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import puppeteer, { Browser } from 'puppeteer-core';
 import axios from 'axios';
 
 let browser: Browser;
-export async function initPuppeteer() {
+let mainWindow: BrowserWindow;
+export async function initPuppeteer(win: BrowserWindow) {
   const port = app.commandLine.getSwitchValue('remote-debugging-port');
   let res = await axios.get(`http://127.0.0.1:${port}/json/version`);
   //直接连接已经存在的 Chrome
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  mainWindow = win;
+  const size = win.getSize();
   browser = await puppeteer.connect({
     browserWSEndpoint: res.data.webSocketDebuggerUrl,
-    defaultViewport: { width, height },
+    defaultViewport: { width: size[0], height: size[1] },
+    slowMo: 200,
   });
 }
 export async function screenshot() {
@@ -26,4 +29,12 @@ export async function category() {
     '#hmenu-content > ul.hmenu.hmenu-visible > li:nth-child(37) > a',
   );
   await Promise.all([fullDirectoryElement.click(), page.waitForNavigation()]);
+}
+export async function getSeller() {
+  const pages = await browser.pages();
+  const page = pages[0];
+  const seller = await page.$eval('#bylineInfo', el => (el as any).innerText);
+  const product = await page.$eval('#productTitle', el => (el as any).innerText);
+  console.log(111);
+  // mainWindow.webContents.findInPage('卖家：');
 }

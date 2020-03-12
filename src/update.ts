@@ -1,8 +1,8 @@
-import { autoUpdater, app, dialog } from 'electron';
+import { autoUpdater, app, dialog, BrowserWindow } from 'electron';
 import isDev from 'electron-is-dev';
 import { Global } from './global';
 
-export function initAutoUpdater() {
+export function initAutoUpdater(win: BrowserWindow) {
   if (!isDev) {
     const server = 'http://yunjiang.wang:1337';
     const platform =
@@ -15,7 +15,7 @@ export function initAutoUpdater() {
     autoUpdater.on('update-available', () => {
       if (Global.manualCheckUpdate) {
         Global.manualCheckUpdate = false;
-        dialog.showMessageBox({
+        dialog.showMessageBox(win, {
           type: 'info',
           title: app.getName(),
           message: '发现新版本，已在后台自动更新，请稍后重启应用程序',
@@ -26,7 +26,7 @@ export function initAutoUpdater() {
     autoUpdater.on('update-not-available', () => {
       if (Global.manualCheckUpdate) {
         Global.manualCheckUpdate = false;
-        dialog.showMessageBox({
+        dialog.showMessageBox(win, {
           type: 'info',
           title: app.getName(),
           message: '当前没有可用的更新',
@@ -36,7 +36,7 @@ export function initAutoUpdater() {
     });
     autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
       dialog
-        .showMessageBox({
+        .showMessageBox(win, {
           type: 'info',
           title: app.getName(),
           message: process.platform === 'win32' ? releaseNotes : releaseName,

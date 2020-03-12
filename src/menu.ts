@@ -2,9 +2,9 @@ import { Menu, autoUpdater, dialog, app, BrowserWindow } from 'electron';
 import os from 'os';
 import { Global } from './global';
 import { helloword } from './user32';
-import { screenshot, category } from './puppeteer';
+import { screenshot, category, getSeller } from './puppeteer';
 
-export function initMenu(mainWindow: BrowserWindow) {
+export function initMenu(win: BrowserWindow) {
   const menu = Menu.buildFromTemplate([
     {
       label: '文件',
@@ -79,11 +79,11 @@ export function initMenu(mainWindow: BrowserWindow) {
       label: '收银',
       accelerator: 'CmdOrCtrl+P',
       click: () => {
-        if (mainWindow) {
-          const url = mainWindow.webContents.getURL();
+        if (win) {
+          const url = win.webContents.getURL();
           const arr = url.split('/');
           const rootUrl = `${arr[0]}//${arr[2]}`;
-          mainWindow.loadURL(`${rootUrl}/#/pos-cashier/entry`);
+          win.loadURL(`${rootUrl}/#/pos-cashier/entry`);
         }
       },
     },
@@ -104,7 +104,7 @@ export function initMenu(mainWindow: BrowserWindow) {
         {
           label: '亚马逊',
           click: () => {
-            mainWindow.loadURL('https://www.amazon.com/');
+            win.loadURL('https://www.amazon.com/');
           },
         },
         {
@@ -117,6 +117,12 @@ export function initMenu(mainWindow: BrowserWindow) {
           label: '抓分类',
           click: () => {
             category();
+          },
+        },
+        {
+          label: '抓发货方',
+          click: () => {
+            getSeller();
           },
         },
       ],
@@ -137,7 +143,7 @@ export function initMenu(mainWindow: BrowserWindow) {
         {
           label: '关于',
           click: () => {
-            dialog.showMessageBox({
+            dialog.showMessageBox(win, {
               type: 'info',
               title: app.getName(),
               message: `版本：${app.getVersion()}
