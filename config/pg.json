@@ -1,0 +1,9 @@
+{
+  "user": "postgres",
+  "password": "123456",
+  "database": "amazon",
+  "host": "yunjiang.wang",
+  "port": 5432,
+  "max": 50,
+  "idleTimeoutMillis": 3000
+}
