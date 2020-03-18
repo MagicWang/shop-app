@@ -81,7 +81,7 @@ const bootstrapWeb = async (port: number) => {
   expressApp.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://store.gmtshenzhen.cn',
+      target: 'https://store.gmtshenzhen.cn',
       changeOrigin: true,
     }),
   );

@@ -24,7 +24,7 @@
         "icon": "web/favicon.ico",
         "overwrite": true,
         "ignore": [
-          "src",
+          "^/src",
           ".vscode",
           ".editorconfig",
           ".eslintrc.json",
@@ -41,7 +41,7 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "iconUrl": "https://store.gmtshenzhen.cn/favicon.ico",
-            "loadingGif": "src/images/loading.gif",
+            "loadingGif": "images/loading.gif",
             "setupIcon": "web/favicon.ico",
             "certificateFile": "./test.pfx",
             "certificatePassword": "123456"
