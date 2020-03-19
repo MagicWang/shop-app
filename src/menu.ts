@@ -2,7 +2,7 @@ import { Menu, autoUpdater, dialog, app, BrowserWindow } from 'electron';
 import os from 'os';
 import { Global } from './global';
 import { helloword } from './user32';
-import { screenshot, category, getSeller } from './puppeteer';
+import { screenshot, category, getSeller, resumeSeller, stopSeller } from './puppeteer';
 
 export function initMenu(win: BrowserWindow) {
   const menu = Menu.buildFromTemplate([
@@ -120,9 +120,21 @@ export function initMenu(win: BrowserWindow) {
           },
         },
         {
+          label: '恢复上次抓取页面',
+          click: () => {
+            resumeSeller();
+          },
+        },
+        {
           label: '抓发货方',
           click: () => {
             getSeller();
+          },
+        },
+        {
+          label: '停止抓取发货方',
+          click: () => {
+            stopSeller();
           },
         },
       ],

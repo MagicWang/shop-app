@@ -1,10 +1,13 @@
 import { app, BrowserWindow } from 'electron';
 import puppeteer, { Browser } from 'puppeteer-core';
 import axios from 'axios';
+import Store from 'electron-store';
 import { DbUtils } from './utils';
 
+const store = new Store();
 let browser: Browser;
 let mainWindow: BrowserWindow;
+let isStopped = false;
 export async function initPuppeteer(win: BrowserWindow) {
   const port = app.commandLine.getSwitchValue('remote-debugging-port');
   let res = await axios.get(`http://127.0.0.1:${port}/json/version`);
@@ -31,11 +34,22 @@ export async function category() {
   );
   await Promise.all([fullDirectoryElement.click(), page.waitForNavigation()]);
 }
+export async function resumeSeller() {
+  const url = store.get('lastUrl');
+  if (url && mainWindow) {
+    mainWindow.loadURL(url);
+  }
+}
+export async function stopSeller() {
+  isStopped = true;
+}
 export async function getSeller() {
+  isStopped = false;
   await initTable();
   const pages = await browser.pages();
   const page = pages[0];
   const category = await page.$eval('#nav-search-dropdown-card > div > div > span', el => (el as any).innerText);
+  store.set('lastUrl', mainWindow.webContents.getURL());
   while (true) {
     let nextUrl;
     try {
@@ -61,10 +75,17 @@ export async function getSeller() {
       } catch (error) {
         console.log(error);
       }
+      if (isStopped) {
+        break;
+      }
     }
     if (nextUrl) {
       await page.goto(nextUrl, { waitUntil: 'domcontentloaded' });
+      store.set('lastUrl', nextUrl);
     } else {
+      break;
+    }
+    if (isStopped) {
       break;
     }
   }
