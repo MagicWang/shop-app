@@ -20,7 +20,9 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "asar": false,
+        "asar": {
+          "unpackDir": "web"
+        },
         "icon": "web/favicon.ico",
         "overwrite": true,
         "ignore": [
@@ -72,9 +74,11 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.49",
     "@types/express": "^4.17.3",
     "@types/ffi-napi": "^2.4.1",
+    "@types/fs-extra": "^8.1.0",
     "@types/node": "^12.0.0",
     "@types/pg": "^7.14.2",
     "@types/puppeteer-core": "^2.0.0",
+    "@types/unzipper": "^0.10.3",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "electron": "^6.0.0",
@@ -89,9 +93,11 @@
     "electron-store": "^5.1.1",
     "express": "^4.17.1",
     "ffi-napi": "^2.4.6",
+    "fs-extra": "^9.0.0",
     "get-port": "^5.1.1",
     "http-proxy-middleware": "^1.0.1",
     "pg": "^7.18.2",
-    "puppeteer-core": "1.17.0"
+    "puppeteer-core": "1.17.0",
+    "unzipper": "^0.10.10"
   }
 }

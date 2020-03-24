@@ -130,3 +130,9 @@ if (!gotTheLock) {
   // code. You can also put them in separate files and import them here.
   initApp();
 }
+
+Object.assign(console, {
+  log: (message: string) => {
+    mainWindow?.webContents.executeJavaScript(`console.log('${message}')`);
+  },
+});

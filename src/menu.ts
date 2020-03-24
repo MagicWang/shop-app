@@ -3,6 +3,7 @@ import os from 'os';
 import { Global } from './global';
 import { helloword } from './user32';
 import { screenshot, category, getSeller, resumeSeller, stopSeller } from './puppeteer';
+const webPackage = require('../web/package.json');
 
 export function initMenu(win: BrowserWindow) {
   const menu = Menu.buildFromTemplate([
@@ -159,6 +160,7 @@ export function initMenu(win: BrowserWindow) {
               type: 'info',
               title: app.getName(),
               message: `版本：${app.getVersion()}
+web版本：${webPackage.version}             
 Electron：${process.versions.electron}
 Chrome：${process.versions.chrome}
 Node.js：${process.versions.node}
